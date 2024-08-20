@@ -11,7 +11,7 @@ function ResetPassword() {
   function handleSubmit(e){
     e.preventDefault();
     axios
-        .post(`https://jsfiddleserver.onrender.com/resetPassword/${id}/${token}`, {password})
+        .post(`https://jsfiddleserver.onrender.com/resetpassword/${id}/${token}`, {password})
         .then(res => {
           if(res.data.Status === "Success") {
               navigate('/login')

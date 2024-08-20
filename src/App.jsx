@@ -30,11 +30,11 @@ function App() {
       element: <SignUp/>,
     },
     {
-      path: "forgotPassword",
+      path: "forgotpassword",
       element: <ForgotPassword/>,
     },
     {
-      path: "resetPassword/:id/:token",
+      path: "resetpassword/:id/:token",
       element: <ResetPassword/>,
     },
     {

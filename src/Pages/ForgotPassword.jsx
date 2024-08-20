@@ -13,8 +13,7 @@ function handleSubmit(e){
       .post(`https://jsfiddleserver.onrender.com/forgotpassword`, {email})
       .then(res => {
         if(res.data.Status === "Success") {
-            navigate('/resetPassword')
-           
+            navigate('/login')
         }
     }).catch(err => console.log(err))
 }
