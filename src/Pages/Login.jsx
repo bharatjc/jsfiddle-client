@@ -100,7 +100,7 @@ function Login() {
             </div>
             <div className="flex justify-center gap-4 my-3 text-slate-300">
               <Link to="/signup">Sign up</Link>
-              <Link to="/forgotPassword">Reset password</Link>
+              <Link to="/forgotpassword">Reset password</Link>
             </div>
           </form>
         </div>
