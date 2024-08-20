@@ -9,6 +9,9 @@ import {
 import Home from "./Pages/Home";
 import SignUp from "./Pages/SignUp";
 import Login from "./Pages/Login";
+import PageNotFound from "./Pages/PageNotFound";
+import ForgotPassword from "./Pages/ForgotPassword";
+import ResetPassword from "./ResetPassword";
 
 function App() {
   const router = createBrowserRouter([
@@ -25,6 +28,18 @@ function App() {
     {
       path: "signup",
       element: <SignUp/>,
+    },
+    {
+      path: "forgotPassword",
+      element: <ForgotPassword/>,
+    },
+    {
+      path: "resetPassword/:id/:token",
+      element: <ResetPassword/>,
+    },
+    {
+      path: "*",
+      element: <PageNotFound/>
     },
   ]);
 

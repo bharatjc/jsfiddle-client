@@ -1,48 +1,129 @@
-import React from 'react'
-import Header from '../Components/Header'
+import React, { useRef, useState } from 'react';
+import Header from '../Components/Header';
+import { RxSwitch } from "react-icons/rx";
+import { CiPlay1 } from "react-icons/ci";
+import { Controlled as CodeMirror } from 'react-codemirror2';
+import 'codemirror/lib/codemirror.css';
+import 'codemirror/mode/xml/xml';
+import 'codemirror/mode/css/css';
+import 'codemirror/mode/javascript/javascript';
+import 'codemirror/theme/dracula.css';
 
-function Home() {
-  
+function Home() {  
+
+  const [html, setHtml] = useState('');
+  const [css, setCss] = useState('');
+  const [js, setJs] = useState('');
+
+  const iframeRef = useRef(null);
+
+  function updateOutput (){
+    const iframe = iframeRef.current;
+    if (iframe) {
+      const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+      iframeDoc.open();
+      iframeDoc.write(`
+        <html>
+          <head>
+            <style>
+            body {
+              color: white;
+            }
+            ${css}</style>
+          </head>
+          <body>
+            ${html}
+            <script>${js}<\/script>
+          </body>
+        </html>
+      `);
+      iframeDoc.close();
+    }
+  };
+
   return (
     <>
-      <Header/>
-      <div className='bg-[#202123] h-[calc(100vh-60px)]'>
-        <div className='flex h-full container text-[#CFCFD0] text-[14px]'>
-        <div className='w-[16%] pr-2 border-r-[1px] border-[#323334]'>
-          <h2 className='text-white font-bold my-3'>Fiddle meta</h2>
-          <textarea name="" id="" placeholder="Untitled fiddle" className='bg-[#1B1C1E] px-2 w-[95%] mb-[3px] outline-blue-600 h-8 rounded-[4px] text-[#8E8E8F] text-[14px]'></textarea>
-          <textarea name="" id="" placeholder="No description" className='bg-[#1B1C1E] px-2 w-[95%] outline-blue-600 h-14 rounded-[4px] text-[#8E8E8F] text-[14px]'></textarea>
-          <div className='flex my-5 gap-2 text-[13px]'>
-          <input type="checkbox" /> <p className='font-semibold'>Private fiddle</p>
-          <button className='text-[9px] px-2 bg-yellow-500 text-black rounded-[4px] font-semibold'>PRO</button>
+      <Header updateOutput={updateOutput} />
+      <div className="bg-[#202123]">
+        <div className="flex flex-col md:flex-row h-full container mx-auto text-[#CFCFD0] text-sm md:text-base">
+          <div className="w-full md:w-1/6 p-2 border-b md:border-b-0 md:border-r border-[#323334]">
+            <h2 className="text-white font-bold my-3">Fiddle meta</h2>
+            <textarea placeholder="Untitled fiddle" className="bg-[#1B1C1E] p-2 w-full mb-2 outline-blue-600 h-8 rounded text-[#8E8E8F] text-sm"></textarea>
+            <textarea placeholder="No description" className="bg-[#1B1C1E] p-2 w-full outline-blue-600 h-14 rounded text-[#8E8E8F] text-sm"></textarea>
+            <div className="flex items-center my-5 gap-2 text-sm">
+              <RxSwitch className="text-lg" />
+              <p className="font-semibold">Private fiddle</p>
+              <button className="text-xs px-2 bg-yellow-500 text-black rounded font-semibold">PRO</button>
+            </div>
+            <h2 className="font-semibold">Groups</h2>
+            <div className="my-3 flex gap-2">
+              <p className="font-semibold">Resources</p>
+              <button className="bg-[#373839] px-2 rounded text-xs font-semibold">URL</button>
+              <button className="bg-[#373839] px-2 rounded text-xs font-semibold">cdnjs</button>
+            </div>
+            <h2 className="font-semibold">Async requests</h2>
+            <h2 className="my-3 font-semibold">Other (links, license)</h2>
           </div>
-          <h2 className='font-semibold'>Groups</h2>
-          <div className='my-3 flex gap-2'>
-            <p className='font-semibold'>Resources</p>
-            <button className='bg-[#373839] px-2 rounded-[4px] text-[9px] font-semibold'>URL</button>
-            <button className='bg-[#373839] px-2 rounded-[4px] text-[9px] font-semibold'>cdnjs</button>
-          </div>
-          <h2 className='font-semibold'>Async requests</h2>
-          <h2 className='my-3 font-semibold'>Other (links, license)</h2>
-         </div>
-         <div className='w-[84%]'>
-         <div className='flex h-[50%] border-b-[1px] border-[#323334]'>
-          <div className='flex justify-between p-2 w-[50%] border-r-[1px] border-[#323334]'>
-            HTML
 
-          </div>
-          <div className='w-[50%] p-2'>CSS</div>
-         </div>
+          <div className="w-full md:w-5/6 flex flex-col pb-6">
+            <div className="flex flex-col md:flex-row h-[50%] border-b border-[#323334] pb-9">
+              <div className="w-full md:w-1/2 p-2 border-b md:border-b-0 md:border-r border-[#323334] h-[250px] pb-8 md:pb-2">
+                <h3>HTML</h3>
+                <CodeMirror
+                  value={html}
+                  options={{
+                    mode: 'xml',
+                    theme: 'dracula',
+                    lineNumbers: true,
+                  }}
+                  onBeforeChange={(editor, data, value) => setHtml(value)}
+                  className="CodeMirror"
+                />
+              </div>
+              <div className="w-full md:w-1/2 p-2 h-[250px]">
+                <h3>CSS</h3>
+                <CodeMirror
+                  value={css}
+                  options={{
+                    mode: 'css',
+                    theme: 'dracula',
+                    lineNumbers: true,
+                  }}
+                  onBeforeChange={(editor, data, value) => setCss(value)}
+                  className="CodeMirror"
+                />
+              </div>
+            </div>
 
-         <div className='flex h-[50%]'>
-          <div className='p-2 w-[50%] border-r-[1px] border-[#323334]'>JS</div>
-          <div className='p-2 w-[50%]'>Output</div>
-         </div>
-         </div>
+            <div className="flex flex-col md:flex-row h-[50%] md:h-[260px]">
+              <div className="w-full md:w-1/2 p-2 border-b md:border-b-0 md:border-r border-[#323334] h-[272px] pb-8 md:pb-2">
+                <h3>JavaScript</h3>
+                <CodeMirror
+                  value={js}
+                  options={{
+                    mode: 'javascript',
+                    theme: 'dracula',
+                    lineNumbers: true,
+                  }}
+                  onBeforeChange={(editor, data, value) => setJs(value)}
+                  className="CodeMirror"
+                />
+              </div>
+              <div className="w-full md:w-1/2 p-2 flex">
+                <h3>Output</h3>
+                <iframe ref={iframeRef} title="output" className="h-full w-[70%] py-5">
+                </iframe>
+                <button onClick={updateOutput} className="flex gap-1 px-2">
+              <CiPlay1 className="text-lg" />
+              Run
+            </button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </>
-  )
+  );
 }
 
-export default Home
+export default Home;
