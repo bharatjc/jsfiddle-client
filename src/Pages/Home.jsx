@@ -126,7 +126,7 @@ function Home() {
             </div>
           </div>
 
-          <div className="flex flex-col md:flex-row h-[50%] md:h-[260px]">
+          <div className="flex flex-col md:flex-row h-[50%]">
             <div className="w-full md:w-1/2 p-2 border-b md:border-b-0 md:border-r border-[#323334] h-[272px] pb-8 md:pb-2">
               <h3>JavaScript</h3>
               <CodeMirror
