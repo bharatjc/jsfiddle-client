@@ -74,7 +74,7 @@ function Home() {
   return (
     <>
     <Header updateOutput={updateOutput} />
-    <div className='h-full w-full'>
+    <div className='h-full'>
     <div className={`h-full ${pageTheme == "light" ? "bg-white text-black" : "bg-[#1B1C1E] text-white"}`}>
       <div className="flex flex-col md:flex-row h-full container mx-auto text-sm md:text-base">
         <div className="w-full md:w-1/6 p-2 border-b md:border-b-0 md:border-r border-[#323334]">
@@ -126,8 +126,8 @@ function Home() {
             </div>
           </div>
 
-          <div className="flex flex-col md:flex-row h-[50%]">
-            <div className="w-full md:w-1/2 p-2 border-b md:border-b-0 md:border-r border-[#323334] h-[272px] pb-8 md:pb-2">
+          <div className="flex flex-col md:flex-row h-[50%] md:h-[260px]">
+            <div className="w-full md:w-1/2 p-2 border-b md:border-b-0 md:border-r border-[#323334] h-[250px] pb-8 md:pb-2">
               <h3>JavaScript</h3>
               <CodeMirror
                 value={js}
