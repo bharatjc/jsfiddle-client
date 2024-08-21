@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import { FaJsfiddle } from "react-icons/fa";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function ForgotPassword() {
 const [email, setEmail] = useState()
@@ -13,6 +15,7 @@ function handleSubmit(e){
       .post(`https://jsfiddleserver.onrender.com/forgotpassword`, {email})
       .then(res => {
         if(res.data.Status === "Success") {
+          toast("Url is sent to your email", { autoClose: 2000 });
             navigate('/login')
         }
     }).catch(err => console.log(err))
