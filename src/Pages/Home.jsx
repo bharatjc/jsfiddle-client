@@ -74,7 +74,8 @@ function Home() {
   return (
     <>
     <Header updateOutput={updateOutput} />
-    <div className={pageTheme == "light" ? "bg-white text-black" : "bg-[#1B1C1E] text-white"}>
+    <div className='h-full w-full'>
+    <div className={`h-full ${pageTheme == "light" ? "bg-white text-black" : "bg-[#1B1C1E] text-white"}`}>
       <div className="flex flex-col md:flex-row h-full container mx-auto text-sm md:text-base">
         <div className="w-full md:w-1/6 p-2 border-b md:border-b-0 md:border-r border-[#323334]">
           <h2 className="font-bold my-3">Fiddle meta</h2>
@@ -151,6 +152,7 @@ function Home() {
           </div>
         </div>
       </div>
+    </div>
     </div>
   </>
   );
