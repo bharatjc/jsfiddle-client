@@ -8,46 +8,59 @@ import 'codemirror/mode/xml/xml';
 import 'codemirror/mode/css/css';
 import 'codemirror/mode/javascript/javascript';
 import 'codemirror/theme/dracula.css';
-import { useSelector} from 'react-redux'
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { setReduxUser } from '../redux/slices/userSlice';
 
 function Home() {  
+  const [data, setData] = useState({
+    html: "",
+    css: "",
+    js: "",
+    title: "",
+    description: ""
+  });
 
-  const [html, setHtml] = useState('');
-  const [css, setCss] = useState('');
-  const [js, setJs] = useState('');
-
-  const pageTheme = useSelector(store=>{
-    return store.theme.dark
-  })
-
+  const fileDetails = useSelector((store) => {
+    return store.file.value;
+  });
+  const pageTheme = useSelector(store => store.theme.dark);
   const iframeRef = useRef(null);
 
-  useEffect(() => {
-    const savedHtml = localStorage.getItem('htmlCode');
-    const savedCss = localStorage.getItem('cssCode');
-    const savedJs = localStorage.getItem('jsCode');
+  function handleChange(e) {
+    const { name, value } = e.target;
+    setData(prevData => ({ ...prevData, [name]: value }));
+  }
 
-    if (savedHtml)
-      { 
-        setHtml(savedHtml);
-      }
-    if (savedCss) 
-      {
-        setCss(savedCss);
-      }
-    if (savedJs)
-       {
-        setJs(savedJs);
-      }
+  useEffect(() => {
+    const savedHtml = localStorage.getItem('html');
+    const savedCss = localStorage.getItem('css');
+    const savedJs = localStorage.getItem('js');
+
+    if (savedHtml) {
+      setData(prevData => ({ ...prevData, html: savedHtml }));
+    }
+    if (savedCss) {
+      setData(prevData => ({ ...prevData, css: savedCss }));
+    }
+    if (savedJs) {
+      setData(prevData => ({ ...prevData, js: savedJs }));
+    }
   }, []);
 
   useEffect(() => {
-    localStorage.setItem('htmlCode', html);
-    localStorage.setItem('cssCode', css);
-    localStorage.setItem('jsCode', js);
-  }, [html, css, js]);
+    localStorage.setItem('html', data.html);
+    localStorage.setItem('css', data.css);
+    localStorage.setItem('js', data.js);
+  }, [data.html, data.css, data.js]);
 
-  function updateOutput (){
+  const dispatch = useDispatch()
+
+  useEffect(()=>{
+    dispatch(setReduxUser(data))
+  },[data, dispatch])
+
+  function updateOutput() {
     const iframe = iframeRef.current;
     if (iframe) {
       const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
@@ -56,20 +69,21 @@ function Home() {
         <html>
           <head>
             <style>
-            body {
-              color: white;
-            }
-            ${css}</style>
+              body {
+                color: white;
+              }
+              ${data.css}
+            </style>
           </head>
           <body>
-            ${html}
-            <script>${js}</script>
+            ${data.html}
+            <script>${data.js}</script>
           </body>
         </html>
       `);
       iframeDoc.close();
     }
-  };
+  }
 
   return (
     <>
@@ -79,8 +93,8 @@ function Home() {
       <div className="flex flex-col md:flex-row h-full container mx-auto text-sm md:text-base">
         <div className="w-full md:w-1/6 p-2 border-b md:border-b-0 md:border-r border-[#323334]">
           <h2 className="font-bold my-3">Fiddle meta</h2>
-          <textarea placeholder="Untitled fiddle" className={`p-2 w-full mb-2 outline-blue-600 h-8 rounded text-sm ${pageTheme == "light" ? "bg-[#8E8E8F] text-[black]" : "bg-[#1B1C1E] text-[#8E8E8F]"}`}></textarea>
-          <textarea placeholder="No description" className={`p-2 w-full mb-2 outline-blue-600 h-14 rounded text-sm ${pageTheme == "light" ? "bg-[#8E8E8F] text-[black]" : "bg-[#1B1C1E] text-[#8E8E8F]"}`}></textarea>
+          <textarea name='title' placeholder="Untitled fiddle" onChange={handleChange} className={`p-2 w-full mb-2 outline-blue-600 h-8 rounded text-sm ${pageTheme == "light" ? "bg-[#8E8E8F] text-[black]" : "bg-[#1B1C1E] text-[#8E8E8F]"}`}></textarea>
+          <textarea name='description' placeholder="No description" onChange={handleChange} className={`p-2 w-full mb-2 outline-blue-600 h-14 rounded text-sm ${pageTheme == "light" ? "bg-[#8E8E8F] text-[black]" : "bg-[#1B1C1E] text-[#8E8E8F]"}`}></textarea>
           <div className="flex items-center my-5 gap-2 text-sm">
             <RxSwitch className="text-lg" />
             <p className="font-semibold">Private fiddle</p>
@@ -101,26 +115,32 @@ function Home() {
             <div className="w-full md:w-1/2 p-2 border-b md:border-b-0 md:border-r border-[#323334] h-[250px] pb-8 md:pb-2">
               <h3>HTML</h3>
               <CodeMirror
-                value={html}
+                value={data.html}
                 options={{
                   mode: 'xml',
                   theme: pageTheme === "light" ? 'default' : 'dracula',
                   lineNumbers: true,
                 }}
-                onBeforeChange={(editor, data, value) => setHtml(value)}
+                onBeforeChange={(editor, data, value) =>
+                 {
+                  setData(prevData => ({ ...prevData, html: value }));
+                 } 
+                }
                 className="CodeMirror"
               />
             </div>
             <div className="w-full md:w-1/2 p-2 h-[250px]">
               <h3>CSS</h3>
               <CodeMirror
-                value={css}
+                value={data.css}
                 options={{
                   mode: 'css',
                   theme: pageTheme === "light" ? 'default' : 'dracula',
                   lineNumbers: true,
                 }}
-                onBeforeChange={(editor, data, value) => setCss(value)}
+                onBeforeChange={(editor, data, value) =>
+                 {setData(prevData => ({ ...prevData, css: value }));}
+                }
                 className="CodeMirror"
               />
             </div>
@@ -130,13 +150,15 @@ function Home() {
             <div className="w-full md:w-1/2 p-2 border-b md:border-b-0 md:border-r border-[#323334] h-[250px] pb-8 md:pb-2">
               <h3>JavaScript</h3>
               <CodeMirror
-                value={js}
+                value={data.js}
                 options={{
                   mode: 'javascript',
                   theme: pageTheme === "light" ? 'default' : 'dracula',
                   lineNumbers: true,
                 }}
-                onBeforeChange={(editor, data, value) => setJs(value)}
+                onBeforeChange={(editor, data, value) =>
+                {setData(prevData => ({ ...prevData, js: value }));}
+                }
                 className="CodeMirror"
               />
             </div>

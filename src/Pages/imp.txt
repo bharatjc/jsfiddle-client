@@ -1,0 +1,133 @@
+<>
+  <Header updateOutput={updateOutput} />
+  <div
+    className={`h-full ${
+      pageTheme === "light" ? "bg-white text-black" : "bg-[#1B1C1E] text-white"
+    }`}
+  >
+    <div>
+      <div className="flex flex-col md:flex-row h-full container mx-auto text-sm md:text-base">
+        <div className="w-full md:w-1/6 p-2 border-b md:border-b-0 md:border-r border-[#323334]">
+          <h2 className="font-bold my-3">Fiddle meta</h2>
+          <textarea
+            placeholder="Untitled fiddle"
+            name="title"
+            value={data.title}
+            onChange={handleChange}
+            className={`p-2 w-full mb-2 outline-blue-600 h-8 rounded text-sm ${
+              pageTheme === "light"
+                ? "bg-[#8E8E8F] text-[black]"
+                : "bg-[#1B1C1E] text-[#8E8E8F]"
+            }`}
+          />
+          <textarea
+            placeholder="No description"
+            name="description"
+            value={data.description}
+            onChange={handleChange}
+            className={`p-2 w-full mb-2 outline-blue-600 h-14 rounded text-sm ${
+              pageTheme === "light"
+                ? "bg-[#8E8E8F] text-[black]"
+                : "bg-[#1B1C1E] text-[#8E8E8F]"
+            }`}
+          />
+          <div className="flex items-center my-5 gap-2 text-sm">
+            <RxSwitch className="text-lg" />
+            <p className="font-semibold">Private fiddle</p>
+            <button className="text-xs px-2 bg-yellow-500 text-black rounded font-semibold">
+              PRO
+            </button>
+          </div>
+          <h2 className="font-semibold">Groups</h2>
+          <div className="my-3 flex gap-2">
+            <p className="font-semibold">Resources</p>
+            <button
+              className={`bg-[#373839] px-2 rounded text-xs font-semibold ${
+                pageTheme === "light" ? "text-white" : ""
+              }`}
+            >
+              URL
+            </button>
+            <button
+              className={`bg-[#373839] px-2 rounded text-xs font-semibold ${
+                pageTheme === "light" ? "text-white" : ""
+              }`}
+            >
+              cdnjs
+            </button>
+          </div>
+          <h2 className="font-semibold">Async requests</h2>
+          <h2 className="my-3 font-semibold">Other (links, license)</h2>
+        </div>
+
+        <div className="w-full md:w-5/6 flex flex-col pb-6">
+          <div className="flex flex-col md:flex-row h-[50%] border-b border-[#323334] pb-9">
+            <div className="w-full md:w-1/2 p-2 border-b md:border-b-0 md:border-r border-[#323334] h-[250px] pb-8 md:pb-2">
+              <h3>HTML</h3>
+              <CodeMirror
+                name="html"
+                value={data.html}
+                options={{
+                  mode: "xml",
+                  theme: pageTheme === "light" ? "default" : "dracula",
+                  lineNumbers: true,
+                }}
+                onBeforeChange={(editor, data, value) =>
+                  setData((prevData) => ({ ...prevData, html: value }))
+                }
+                className="CodeMirror"
+              />
+            </div>
+            <div className="w-full md:w-1/2 p-2 h-[250px]">
+              <h3>CSS</h3>
+              <CodeMirror
+                name="css"
+                value={data.css}
+                options={{
+                  mode: "css",
+                  theme: pageTheme === "light" ? "default" : "dracula",
+                  lineNumbers: true,
+                }}
+                onBeforeChange={(editor, data, value) =>
+                  setData((prevData) => ({ ...prevData, css: value }))
+                }
+                // className="CodeMirror"
+              />
+            </div>
+          </div>
+
+          <div className="flex flex-col md:flex-row h-[50%] md:h-[260px]">
+            <div className="w-full md:w-1/2 p-2 border-b md:border-b-0 md:border-r border-[#323334] h-[250px] pb-8 md:pb-2">
+              <h3>JavaScript</h3>
+              <CodeMirror
+                name="js"
+                value={data.js}
+                options={{
+                  mode: "javascript",
+                  theme: pageTheme === "light" ? "default" : "dracula",
+                  lineNumbers: true,
+                }}
+                onBeforeChange={(editor, data, value) =>
+                  setData((prevData) => ({ ...prevData, js: value }))
+                }
+                // className="CodeMirror"
+              />
+            </div>
+            <div className="w-full md:w-1/2 p-2 flex">
+              <h3>Output</h3>
+              <iframe
+                ref={iframeRef}
+                title="output"
+                className="h-full w-[70%] py-5"
+              ></iframe>
+              <button onClick={updateOutput} className="flex gap-1 px-2">
+                <CiPlay1 className="text-lg" />
+                Run
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</>;

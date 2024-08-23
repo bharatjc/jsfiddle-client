@@ -6,6 +6,8 @@ import { IoEyeSharp } from "react-icons/io5";
 import { IoEyeOffSharp } from "react-icons/io5";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { setUserDetails } from "../redux/slices/userSlice";
+import { useDispatch } from "react-redux";
 
 function Login() {
   const navigate = useNavigate();
@@ -14,6 +16,8 @@ function Login() {
     email: "",
     password: "",
   });
+ 
+  const dispatch = useDispatch()
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -26,7 +30,8 @@ function Login() {
       .post(`https://jsfiddleserver.onrender.com/api/login`, user)
       .then((res) => {
         toast("Logged in successfully!", { autoClose: 2000 });
-        localStorage.setItem("user", JSON.stringify(res.data));
+        localStorage.setItem("access_token", res.data.data.token);
+        localStorage.setItem("userId", res.data.data._id)
         navigate("/");
       })
       .catch((err) => {
