@@ -104,12 +104,10 @@ function deletefile(title){
   })
   .then((res) => {
     toast(`File removed successfully`, { autoClose: 2000 });
-    console.log(res.data)
   })
   .catch((err) => {
     console.error("Error:", err);
   });
-  console.log(title)
 }
 
   return (
