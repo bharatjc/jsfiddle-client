@@ -10,7 +10,7 @@ import "codemirror/mode/javascript/javascript";
 import "codemirror/theme/dracula.css";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { setReduxUser } from "../redux/slices/userSlice";
+import { setReduxUser } from "../redux/Slices/userSlice";
 
 function Home() {
   const [data, setData] = useState({
