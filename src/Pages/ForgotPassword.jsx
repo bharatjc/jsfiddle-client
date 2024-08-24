@@ -15,9 +15,9 @@ function handleSubmit(e){
       .post(`https://jsfiddleserver.onrender.com/forgotpassword`, {email})
       .then(res => {
         if(res.data.Status === "Success") {
-            toast("Url is sent to your email", { autoClose: 2000 });
             navigate('/login')
         }
+        toast("Url is sent to your email", { autoClose: 2000 });
     }).catch(err => console.log(err))
 }
 
