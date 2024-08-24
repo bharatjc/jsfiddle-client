@@ -6,17 +6,15 @@ import { IoEyeSharp } from "react-icons/io5";
 import { IoEyeOffSharp } from "react-icons/io5";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useDispatch } from "react-redux";
 
 function Login() {
+  const[loading, setLoading] = useState(false)
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [user, setUser] = useState({
     email: "",
     password: "",
   });
- 
-  const dispatch = useDispatch()
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -25,6 +23,7 @@ function Login() {
 
   function handleSubmit(e) {
     e.preventDefault();
+    setLoading(true)
     axios
       .post(`https://jsfiddleserver.onrender.com/api/login`, user)
       .then((res) => {
@@ -44,6 +43,7 @@ function Login() {
           });
           console.log("Error:", err);
         }
+        setLoading(false)
       });
   }
 
@@ -98,7 +98,7 @@ function Login() {
               </div>
             </div>
             <div className="flex justify-center my-10">
-              <button className="px-7 py-3 bg-[#2159FF] text-white rounded-md">
+              <button disabled={loading} className="disabled:bg-blue-300 disabled:cursor-no-drop px-7 py-3 bg-[#2159FF] text-white rounded-md">
                 Log in
               </button>
             </div>

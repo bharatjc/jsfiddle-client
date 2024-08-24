@@ -6,6 +6,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 function SignUp() {
+  const [loading, setLoading] = useState(false)
   const navigate = useNavigate();
   const [formErrors, setFormErrors] = useState([]);
   const [inputs, setInputs] = useState({
@@ -23,7 +24,7 @@ function SignUp() {
   function handleSubmit(e) {
     e.preventDefault();
     setFormErrors([]);
-
+    setLoading(true)
     axios
       .post(`https://jsfiddleserver.onrender.com/api/signup`, {
         username: inputs.username,
@@ -40,6 +41,7 @@ function SignUp() {
         if (err?.response?.status === 400 && errors) {
           setFormErrors(errors);
         }
+        setLoading(false)
         toast.error("Something went wrong", {
           autoClose: 2000,
         });
@@ -120,7 +122,10 @@ function SignUp() {
               By signing up you agree to our terms and privacy policy
             </h2>
             <div className="flex justify-center my-10">
-              <button className="px-4 py-2 bg-[#2159FF] text-white rounded-md">
+              <button
+              disabled={loading}
+              type="submit"
+              className="disabled:bg-blue-300 disabled:cursor-no-drop px-4 py-2 bg-[#2159FF] text-white rounded-md">
                 Create an account
               </button>
             </div>
