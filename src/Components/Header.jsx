@@ -95,6 +95,23 @@ function getData(title){
   });
 }
 
+function deletefile(title){
+  axios
+  .delete(`https://jsfiddleserver.onrender.com/deletefile/${title}`, {
+    headers: {
+      Authorization: `Bearer ${access_token}`,
+    },
+  })
+  .then((res) => {
+    toast(`File removed successfully`, { autoClose: 2000 });
+    console.log(res.data)
+  })
+  .catch((err) => {
+    console.error("Error:", err);
+  });
+  console.log(title)
+}
+
   return (
     <div
       className={`h-[60px] w-full flex items-center text-[14px] border-b-[1px] border-gray-300 ${
@@ -167,7 +184,7 @@ getData(title)
                         <span className="">{title}</span>
                       </div>
                       <div className="relative group">
-                        <RxCross2 className="cursor-pointer" />
+                        <RxCross2 className="cursor-pointer" onClick={()=>deletefile(title)}/>
                         <div className="absolute right-5 w-[100px] top-full mt-1 hidden group-hover:block bg-black text-white text-xs p-2 rounded">
                           Remove this file
                         </div>
@@ -215,7 +232,7 @@ getData(title)
                         <span className="">{title}</span>
                       </div>
                       <div className="relative group">
-                        <RxCross2 className="cursor-pointer" />
+                        <RxCross2 className="cursor-pointer" onClick={()=>deletefile(title)}/>
                         <div className="absolute right-5 w-[100px] top-full mt-1 hidden group-hover:block bg-black text-white text-xs p-2 rounded">
                           Remove this file
                         </div>
