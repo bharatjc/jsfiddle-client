@@ -6,7 +6,6 @@ import { IoEyeSharp } from "react-icons/io5";
 import { IoEyeOffSharp } from "react-icons/io5";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { setUserDetails } from "../redux/slices/userSlice";
 import { useDispatch } from "react-redux";
 
 function Login() {
