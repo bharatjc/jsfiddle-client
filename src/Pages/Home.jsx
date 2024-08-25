@@ -124,8 +124,8 @@ function Home() {
                   PRO
                 </button>
               </div>
-              <h2 className="font-semibold">Groups</h2>
-              <div className="my-3 flex gap-2">
+              <h2 className="font-semibold text-sm">Groups</h2>
+              <div className="my-3 flex flex-wrap gap-2 text-sm">
                 <p className="font-semibold">Resources</p>
                 <button
                   className={`bg-[#373839] px-2 rounded text-xs font-semibold ${
@@ -142,8 +142,8 @@ function Home() {
                   cdnjs
                 </button>
               </div>
-              <h2 className="font-semibold">Async requests</h2>
-              <h2 className="my-3 font-semibold">Other (links, license)</h2>
+              <h2 className="font-semibold text-sm">Async requests</h2>
+              <h2 className="my-3 font-semibold text-sm">Other (links, license)</h2>
             </div>
 
             <div className="w-full md:w-5/6 flex flex-col pb-6">

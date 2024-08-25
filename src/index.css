@@ -4,7 +4,7 @@
 
 @layer components{
   .container{
-    @apply mx-auto px-3 w-full ;
+    @apply mx-auto px-3 w-full md:max-w-[1270px] ;
   }
 }
 
